@@ -9,9 +9,17 @@ import os
 def extract_text_from_url(url):
     print(f"Fetching URL: {url}")
     try:
-        response = requests.get(url, timeout=10)
+        # Some sites use strict anti-bot protections (like Cloudflare) that still block `requests`.
+        # `cloudscraper` mimics a real browser environment more thoroughly to bypass these.
+        import cloudscraper
+        scraper = cloudscraper.create_scraper(browser={
+            'browser': 'chrome',
+            'platform': 'windows',
+            'desktop': True
+        })
+        response = scraper.get(url, timeout=15)
         response.raise_for_status()
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         print(f"Error fetching URL: {e}")
         return None
 
