@@ -1,4 +1,5 @@
-requests
-beautifulsoup4
-ollama
-cloudscraper
+fastapi
+uvicorn[standard]
+pydantic-settings
+pytest
+httpx
